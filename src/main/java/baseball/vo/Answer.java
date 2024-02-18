@@ -11,4 +11,16 @@ public class Answer {
         this.tensDigit = tensDigit;
         this.unitDigit = unitDigit;
     }
+
+    public int getHundredsDigit () {
+        return hundredsDigit;
+    }
+
+    public int getTensDigit () {
+        return tensDigit;
+    }
+
+    public int getUnitDigit () {
+        return unitDigit;
+    }
 }
