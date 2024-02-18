@@ -3,9 +3,6 @@ package baseball.util;
 import baseball.vo.Answer;
 import camp.nextstep.edu.missionutils.Randoms;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class RandomUtil {
 
     public Answer generateAnswer() {
