@@ -14,7 +14,7 @@ class GameTest {
         Game game = new Game();
         List<Integer> generatedAnswer = game.createAnswer().getDigits();
         assertThat(generatedAnswer).hasSize(3);
-        assertThat(generatedAnswer.stream().allMatch(n -> n>=1 && n<=9)).isTrue();
+        assertThat(generatedAnswer.stream().allMatch(n -> n >= 1 && n <= 9)).isTrue();
     }
 
     @Test

@@ -11,9 +11,9 @@ public class Game {
     public Answer createAnswer() {
         List<Integer> digits = new ArrayList<>();
 
-        for(int i = 0; i< Answer.LENGTH_OF_ANSWER; i++) {
+        for (int i = 0; i < Answer.LENGTH_OF_ANSWER; i++) {
             int newNumber = Randoms.pickNumberInRange(1, 9);
-            if(digits.contains(newNumber)) {
+            if (digits.contains(newNumber)) {
                 i--;
                 continue;
             }
@@ -22,7 +22,6 @@ public class Game {
 
         return new Answer(digits);
     }
-
 
 
 }

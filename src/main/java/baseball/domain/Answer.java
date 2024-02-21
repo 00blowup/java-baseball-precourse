@@ -15,12 +15,13 @@ public class Answer {
     }
 
     private void validateSize(List<Integer> digits) {
-        if(digits.size() != LENGTH_OF_ANSWER)
+        if (digits.size() != LENGTH_OF_ANSWER)
             throw new IllegalArgumentException("정답의 자리 수가 올바르지 않습니다.");
     }
+
     private void validateDuplicate(List<Integer> digits) {
         Set<Integer> nonduplicateDigits = new HashSet<>(digits);
-        if(nonduplicateDigits.size() != digits.size())
+        if (nonduplicateDigits.size() != digits.size())
             throw new IllegalArgumentException("정답의 각 자리 수는 중복될 수 없습니다.");
     }
 
