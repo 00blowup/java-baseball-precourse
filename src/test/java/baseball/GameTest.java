@@ -18,6 +18,7 @@ import java.util.*;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class GameTest {
 
@@ -45,7 +46,7 @@ class GameTest {
                 Arguments.of(1, 0),
                 Arguments.of(Answer.LENGTH_OF_ANSWER, 0),
                 Arguments.of(1, 1)
-                );
+        );
     }
 
     @Test
@@ -139,7 +140,7 @@ class GameTest {
         }
 
         if (strikeCount == Answer.LENGTH_OF_ANSWER) {
-            assertThat(outputMessage.toString()).isEqualTo("3개의 숫자를 모두 맞히셨습니다! 게임 종료\n");
+            assertThat(outputMessage.toString()).isEqualTo(Answer.LENGTH_OF_ANSWER + "스트라이크\n3개의 숫자를 모두 맞히셨습니다! 게임 종료\n");
             return;
         }
 
@@ -155,6 +156,15 @@ class GameTest {
 
         assertThat(outputMessage.toString()).isEqualTo(ballCount + "볼 " + strikeCount + "스트라이크\n");
 
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"3", "4", "5", "100", "-1", "0"})
+    void 입력된_커맨드가_1_또는_2가_아닌_정수일_경우_예외를_발생시킨다(String inputString) {
+        System.setIn(new ByteArrayInputStream(inputString.getBytes()));
+
+        Game game = new Game();
+        assertThrows(IllegalArgumentException.class, game::getRestartOrQuit);
     }
 
 }

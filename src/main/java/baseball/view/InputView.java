@@ -11,7 +11,24 @@ public class InputView {
 
     public static Input readGuessingNumber() {
         System.out.print("숫자를 입력해주세요 : ");
-        return new Input(Console.readLine());
+        String inputString = Console.readLine();
+        validateInteger(inputString);
+        return new Input(inputString);
+    }
+
+    public static String readRestartOrQuit() {
+        System.out.println("게임을 새로 시작하려면 1, 종료하려면 2를 입력하세요.");
+        String inputCommand = Console.readLine();
+        validateInteger(inputCommand);
+        return inputCommand;
+    }
+
+    private static void validateInteger(String input) {
+        try {
+            Integer.parseInt(input);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("입력값은 정수여야 합니다.");
+        }
     }
 
 }
