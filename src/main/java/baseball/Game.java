@@ -1,6 +1,8 @@
 package baseball;
 
 import baseball.domain.Answer;
+import baseball.domain.Input;
+import baseball.view.InputView;
 import camp.nextstep.edu.missionutils.Randoms;
 
 import java.util.ArrayList;
@@ -24,4 +26,7 @@ public class Game {
     }
 
 
+    public Input getGuessingNumberInput() {
+        return InputView.readGuessingNumber();
+    }
 }

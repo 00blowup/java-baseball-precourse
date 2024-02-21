@@ -1,8 +1,10 @@
 package baseball;
 
 import baseball.domain.Answer;
+import baseball.domain.Input;
 import org.junit.jupiter.api.Test;
 
+import java.io.ByteArrayInputStream;
 import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -13,7 +15,7 @@ class GameTest {
     void 생성된_정답이_세_자리_정수이다() {
         Game game = new Game();
         List<Integer> generatedAnswer = game.createAnswer().getDigits();
-        assertThat(generatedAnswer).hasSize(3);
+        assertThat(generatedAnswer).hasSize(Answer.LENGTH_OF_ANSWER);
         assertThat(generatedAnswer.stream().allMatch(n -> n >= 1 && n <= 9)).isTrue();
     }
 
@@ -23,6 +25,15 @@ class GameTest {
         List<Integer> generatedAnswer = game.createAnswer().getDigits();
         Set<Integer> digitSet = new HashSet<>(generatedAnswer);
         assertThat(generatedAnswer).hasSameSizeAs(digitSet);
+    }
+
+    @Test
+    void 사용자로부터_받은_입력값이_세_자리_정수이다() {
+        System.setIn(new ByteArrayInputStream("123".getBytes()));
+        Game game = new Game();
+        List<Integer> inputDigits = game.getGuessingNumberInput().getDigits();
+        assertThat(inputDigits).hasSize(Answer.LENGTH_OF_ANSWER);
+        assertThat(inputDigits.stream().allMatch(n -> n >= 1 && n <= 9)).isTrue();
     }
 
 }
