@@ -4,17 +4,28 @@ import baseball.domain.Answer;
 import baseball.domain.Hint;
 import baseball.domain.Input;
 import camp.nextstep.edu.missionutils.Randoms;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.util.*;
+import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 class GameTest {
+
+    @AfterEach
+    void restoreStreams() {
+        System.setIn(System.in);
+        System.setOut(System.out);
+    }
 
     public static List<String> generateRandomInputString() {
 
@@ -24,6 +35,17 @@ class GameTest {
         }
 
         return inputStrings;
+    }
+
+    public static Stream<Arguments> provideCounts() {
+        return Stream.of(
+                Arguments.of(0, 0),
+                Arguments.of(0, 1),
+                Arguments.of(0, Answer.LENGTH_OF_ANSWER),
+                Arguments.of(1, 0),
+                Arguments.of(Answer.LENGTH_OF_ANSWER, 0),
+                Arguments.of(1, 1)
+                );
     }
 
     @Test
@@ -98,6 +120,41 @@ class GameTest {
 
         assertThat(calculatedHint.getBallCount()).isEqualTo(0);
         assertThat(calculatedHint.getStrikeCount()).isEqualTo(0);
+    }
+
+    @ParameterizedTest
+    @MethodSource("provideCounts")
+    void 힌트_값에_맞는_문구_출력_테스트(int ballCount, int strikeCount) {
+        Game game = new Game();
+
+        ByteArrayOutputStream outputMessage = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outputMessage));
+
+        Hint hint = new Hint(ballCount, strikeCount);
+        game.printHint(hint);
+
+        if (ballCount == 0 && strikeCount == 0) {
+            assertThat(outputMessage.toString()).isEqualTo("낫싱\n");
+            return;
+        }
+
+        if (strikeCount == Answer.LENGTH_OF_ANSWER) {
+            assertThat(outputMessage.toString()).isEqualTo("3개의 숫자를 모두 맞히셨습니다! 게임 종료\n");
+            return;
+        }
+
+        if (ballCount == 0) {
+            assertThat(outputMessage.toString()).isEqualTo(strikeCount + "스트라이크\n");
+            return;
+        }
+
+        if (strikeCount == 0) {
+            assertThat(outputMessage.toString()).isEqualTo(ballCount + "볼\n");
+            return;
+        }
+
+        assertThat(outputMessage.toString()).isEqualTo(ballCount + "볼 " + strikeCount + "스트라이크\n");
+
     }
 
 }
