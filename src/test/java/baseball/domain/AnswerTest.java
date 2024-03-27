@@ -1,9 +1,12 @@
 package baseball.domain;
 
+import baseball.Game;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -14,6 +17,14 @@ class AnswerTest {
     void 랜덤_정답_생성_테스트() {
         List<Integer> generatedAnswer = new Answer().getDigits();
         assertThat(generatedAnswer.stream().allMatch(n -> n >= 1 && n <= 9)).isTrue();
+    }
+
+    @Test
+    void 생성된_정답의_각_자리_수가_중복되지_않는다() {
+        Game game = new Game();
+        List<Integer> generatedAnswer = game.createAnswer().getDigits();
+        Set<Integer> digitSet = new HashSet<>(generatedAnswer);
+        assertThat(generatedAnswer).hasSameSizeAs(digitSet);
     }
 
     @Test

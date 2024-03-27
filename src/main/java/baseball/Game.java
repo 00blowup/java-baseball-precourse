@@ -21,25 +21,9 @@ public class Game {
         return InputView.readGuessingNumber();
     }
 
-    public Hint calculateHint(Answer answer, Input guessingInput) {
-        List<Integer> answerDigits = answer.getDigits();
-        List<Integer> inputDigits = guessingInput.getDigits();
+    public void printHint(Answer answer, Input guessingInput) {
+        Hint hint = new Hint(answer, guessingInput);
 
-        int ballCount = 0;
-        int strikeCount = 0;
-
-        for (int i = 0; i < Answer.LENGTH_OF_ANSWER; i++) {
-            if (answerDigits.get(i).equals(inputDigits.get(i))) {
-                strikeCount++;
-                continue;
-            }
-            if (inputDigits.contains(answerDigits.get(i))) ballCount++;
-        }
-
-        return new Hint(ballCount, strikeCount);
-    }
-
-    public void printHint(Hint hint) {
         int ballCount = hint.getBallCount();
         int strikeCount = hint.getStrikeCount();
 

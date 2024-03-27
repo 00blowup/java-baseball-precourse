@@ -1,38 +1,52 @@
 package baseball.domain;
 
+import baseball.Game;
+import camp.nextstep.edu.missionutils.Randoms;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.ValueSource;
+
+import java.io.ByteArrayInputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class HintTest {
+    public static List<String> generateRandomInputString() {
 
-    @Test
-    void 정상적으로_힌트_생성하기() {
-        int ballCount = 1;
-        int strikeCount = Answer.LENGTH_OF_ANSWER - ballCount;
+        List<String> inputStrings = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            inputStrings.add(Integer.toString(Randoms.pickNumberInRange(100, 999)));
+        }
 
-        Hint generatedHint = new Hint(ballCount, strikeCount);
-
-        assertThat(generatedHint.getBallCount()).isEqualTo(ballCount);
-        assertThat(generatedHint.getStrikeCount()).isEqualTo(strikeCount);
+        return inputStrings;
     }
 
-    @Test
-    void 볼_개수가_음수인_경우_예외를_발생시킨다() {
-        assertThrows(IllegalArgumentException.class, () ->
-                new Hint(-1, 0));
-    }
+    @ParameterizedTest
+    @MethodSource("generateRandomInputString")
+    void 힌트_계산_테스트(String inputString) {
+        Answer answer = new Answer();
+        Input input = new Input(inputString);
+        Hint hint = new Hint(answer, input);
 
-    @Test
-    void 스트라이크_개수가_음수인_경우_예외를_발생시킨다() {
-        assertThrows(IllegalArgumentException.class, () ->
-                new Hint(0, -1));
-    }
+        List<Integer> answerDigits = answer.getDigits();
+        List<Integer> inputDigits = input.getDigits();
 
-    @Test
-    void 볼과_스트라이크_개수의_합이_정답_자리_수를_초과하는_경우_예외를_발생시킨다() {
-        assertThrows(IllegalArgumentException.class, () ->
-                new Hint(Answer.LENGTH_OF_ANSWER, 1));
+        int correctBallCount = 0;
+        int correctStrikeCount = 0;
+
+        for (int i = 0; i < answerDigits.size(); i++) {
+            if (answerDigits.get(i).equals(inputDigits.get(i))) {
+                correctStrikeCount++;
+                continue;
+            }
+            if (inputDigits.contains(answerDigits.get(i))) correctBallCount++;
+        }
+
+        assertThat(hint.getBallCount()).isEqualTo(correctBallCount);
+        assertThat(hint.getStrikeCount()).isEqualTo(correctStrikeCount);
     }
 }

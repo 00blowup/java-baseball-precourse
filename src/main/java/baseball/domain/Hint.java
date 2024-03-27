@@ -1,21 +1,29 @@
 package baseball.domain;
 
+import java.util.List;
+
 public class Hint {
 
     private final int ballCount;
     private final int strikeCount;
 
-    public Hint(int ballCount, int strikeCount) {
-        validateValueRange(ballCount, strikeCount);
+    public Hint(Answer answer, Input guessingInput) {
+        List<Integer> answerDigits = answer.getDigits();
+        List<Integer> inputDigits = guessingInput.getDigits();
+
+        int ballCount = 0;
+        int strikeCount = 0;
+
+        for (int i = 0; i < Answer.LENGTH_OF_ANSWER; i++) {
+            if (answerDigits.get(i).equals(inputDigits.get(i))) {
+                strikeCount++;
+                continue;
+            }
+            if (inputDigits.contains(answerDigits.get(i))) ballCount++;
+        }
+
         this.ballCount = ballCount;
         this.strikeCount = strikeCount;
-    }
-
-    private void validateValueRange(int ballCount, int strikeCount) {
-        if (ballCount < 0 ||
-                strikeCount < 0 ||
-                ballCount + strikeCount > Answer.LENGTH_OF_ANSWER)
-            throw new IllegalArgumentException("볼 또는 스트라이크 개수의 값이 너무 작거나 큽니다.");
     }
 
     public int getBallCount() {
