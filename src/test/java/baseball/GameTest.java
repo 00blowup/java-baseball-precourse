@@ -22,12 +22,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class GameTest {
 
-    @AfterEach
-    void restoreStreams() {
-        System.setIn(System.in);
-        System.setOut(System.out);
-    }
-
     public static List<String> generateRandomInputString() {
 
         List<String> inputStrings = new ArrayList<>();
