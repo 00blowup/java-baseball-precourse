@@ -4,6 +4,7 @@ import baseball.domain.Answer;
 import baseball.domain.Hint;
 import baseball.domain.Input;
 import camp.nextstep.edu.missionutils.Randoms;
+import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -47,8 +48,10 @@ class GameTest {
     void 생성된_정답이_세_자리_정수이다() {
         Game game = new Game();
         List<Integer> generatedAnswer = game.createAnswer().getDigits();
-        assertThat(generatedAnswer).hasSize(Answer.LENGTH_OF_ANSWER);
-        assertThat(generatedAnswer.stream().allMatch(n -> n >= 1 && n <= 9)).isTrue();
+        SoftAssertions softly = new SoftAssertions();
+        softly.assertThat(generatedAnswer).hasSize(Answer.LENGTH_OF_ANSWER);
+        softly.assertThat(generatedAnswer.stream().allMatch(n -> n >= 1 && n <= 9)).isTrue();
+        softly.assertAll();
     }
 
     @Test

@@ -5,9 +5,16 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class AnswerTest {
+
+    @Test
+    void 랜덤_정답_생성_테스트() {
+        List<Integer> generatedAnswer = new Answer().getDigits();
+        assertThat(generatedAnswer.stream().allMatch(n -> n >= 1 && n <= 9)).isTrue();
+    }
 
     @Test
     void 정답의_자리_수가_너무_많은_경우_예외를_발생시킨다() {
