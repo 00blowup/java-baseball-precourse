@@ -1,5 +1,8 @@
 package baseball.domain;
 
+import camp.nextstep.edu.missionutils.Randoms;
+
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -8,6 +11,23 @@ public class Answer {
     public static final int LENGTH_OF_ANSWER = 3;
     private final List<Integer> digits;
 
+    public Answer() {
+        List<Integer> digits = new ArrayList<>();
+
+        for (int i = 0; i < Answer.LENGTH_OF_ANSWER; i++) {
+            int newNumber = Randoms.pickNumberInRange(1, 9);
+            if (digits.contains(newNumber)) {
+                i--;
+                continue;
+            }
+            digits.add(newNumber);
+        }
+        validateSize(digits);
+        validateDuplicate(digits);
+        this.digits = digits;
+    }
+
+    // for test
     public Answer(List<Integer> digits) {
         validateSize(digits);
         validateDuplicate(digits);
