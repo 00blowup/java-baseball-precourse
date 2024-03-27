@@ -7,6 +7,21 @@ import baseball.view.InputView;
 import baseball.view.OutputView;
 
 public class Game {
+    private Answer answer;
+
+    public Game() {
+    }
+
+    public void play() {
+        answer = createAnswer();
+        while(true) {
+            Input input = getGuessingNumberInput();
+            Hint hint = printHint(answer, input);
+            if(hint.getStrikeCount() == Answer.LENGTH_OF_ANSWER) break;
+        }
+        if(isRestart()) play();
+    }
+
     public Answer createAnswer() {
         return new Answer();
     }
@@ -15,9 +30,10 @@ public class Game {
         return InputView.readGuessingNumber();
     }
 
-    public void printHint(Answer answer, Input guessingInput) {
+    public Hint printHint(Answer answer, Input guessingInput) {
         Hint hint = new Hint(answer, guessingInput);
         OutputView.printHint(hint);
+        return hint;
     }
 
     public boolean isRestart() {
