@@ -3,7 +3,6 @@ package baseball.domain;
 import java.util.List;
 
 public class Hint {
-
     private final int ballCount;
     private final int strikeCount;
 
@@ -33,5 +32,4 @@ public class Hint {
     public int getStrikeCount() {
         return strikeCount;
     }
-
 }

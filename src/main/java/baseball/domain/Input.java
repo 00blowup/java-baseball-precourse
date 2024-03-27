@@ -27,10 +27,7 @@ public class Input {
             throw new IllegalArgumentException("입력값의 길이가 올바르지 않습니다.");
     }
 
-
     public List<Integer> getDigits() {
         return digits;
     }
-
-
 }
